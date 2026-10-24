@@ -1,0 +1,723 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Karthik C Vadlamudi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap">
+
+<style>
+/* Layout: sticky nav + full-width sections, constrained content column */
+:root {
+  --bg: #f8f7f4;
+  --bg2: #ffffff;
+  --fg: #1a1917;
+  --fg2: #4a4845;
+  --fg3: #7a7774;
+  --accent: #1d5c8a;
+  --accent-light: #e8f0f7;
+  --rule: #e2e0db;
+  --tag-bg: #edf2f7;
+  --tag-fg: #2c5f84;
+  --card: #ffffff;
+  --card-border: #e8e6e1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141312;
+    --bg2: #1c1b19;
+    --fg: #f0ede8;
+    --fg2: #b8b4ae;
+    --fg3: #7a7774;
+    --accent: #5ba3d4;
+    --accent-light: #162535;
+    --rule: #2a2826;
+    --tag-bg: #1a2d3d;
+    --tag-fg: #7ec8f0;
+    --card: #1c1b19;
+    --card-border: #2e2c29;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141312;
+  --bg2: #1c1b19;
+  --fg: #f0ede8;
+  --fg2: #b8b4ae;
+  --fg3: #7a7774;
+  --accent: #5ba3d4;
+  --accent-light: #162535;
+  --rule: #2a2826;
+  --tag-bg: #1a2d3d;
+  --tag-fg: #7ec8f0;
+  --card: #1c1b19;
+  --card-border: #2e2c29;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(0px, env(safe-area-inset-left, 0px));
+  padding-right: max(0px, env(safe-area-inset-right, 0px));
+}
+
+/* Nav */
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 14px;
+  padding-left: max(32px, env(safe-area-inset-left, 0px));
+  padding-right: max(32px, env(safe-area-inset-right, 0px));
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 101;
+  background: var(--bg);
+}
+.nav-name {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 1.1rem;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg3);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* Content column */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+
+/* Section wrapper */
+section {
+  padding-block: 72px;
+}
+section + section {
+  border-top: 1px solid var(--rule);
+}
+
+/* Hero */
+#hero {
+  padding-block: 80px 72px;
+}
+.hero-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+h1.hero-name {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(2.8rem, 7vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--fg);
+  margin: 0 0 28px 0;
+}
+h1.hero-name em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero-summary {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--fg2);
+  max-width: 62ch;
+  margin: 0 0 36px 0;
+}
+.hero-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  font-size: 0.85rem;
+  color: var(--fg3);
+}
+.hero-contact span { display: flex; align-items: center; gap: 6px; }
+.hero-contact a { color: var(--accent); text-decoration: none; }
+.hero-contact a:hover { text-decoration: underline; }
+
+/* Section headings */
+.section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg3);
+  margin-bottom: 36px;
+}
+h2.section-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--fg);
+  margin: 0 0 32px 0;
+}
+
+/* Skills grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.skill-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 20px 22px;
+}
+.skill-card-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.skill-card-content {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--fg2);
+}
+
+/* Experience */
+.exp-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding-bottom: 52px;
+  margin-bottom: 4px;
+}
+.exp-item:last-child { padding-bottom: 0; }
+.exp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+  margin-bottom: 4px;
+}
+.exp-role {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+.exp-company {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--accent);
+}
+.exp-dates {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--fg3);
+  margin-left: auto;
+}
+.exp-sub {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--fg3);
+  margin-bottom: 14px;
+  margin-top: 2px;
+}
+.exp-bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.exp-bullets li {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--fg2);
+  padding-left: 18px;
+  position: relative;
+}
+.exp-bullets li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 300;
+}
+.exp-bullets li strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+.exp-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 28px 0 36px 0;
+}
+.exp-subsection-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg3);
+  margin: 28px 0 10px 0;
+}
+
+/* Projects */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.project-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.project-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--tag-bg);
+  color: var(--tag-fg);
+  letter-spacing: 0.02em;
+}
+.project-desc {
+  font-size: 0.87rem;
+  line-height: 1.6;
+  color: var(--fg2);
+}
+
+/* Education */
+.edu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.edu-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  align-items: baseline;
+}
+.edu-degree {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+.edu-school {
+  font-size: 0.9rem;
+  color: var(--fg2);
+}
+.edu-year {
+  font-size: 0.82rem;
+  color: var(--fg3);
+  margin-left: auto;
+}
+
+/* Contact CTA */
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--fg2);
+}
+.contact-item a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.contact-item a:hover { text-decoration: underline; }
+.copy-btn {
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--fg3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.copy-btn:hover {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* GitHub CTA */
+.github-cta {
+  margin-top: 32px;
+  padding: 20px 24px;
+  background: var(--accent-light);
+  border-radius: 10px;
+  border: 1px solid var(--accent);
+  font-size: 0.88rem;
+  color: var(--fg2);
+}
+.github-cta a { color: var(--accent); font-weight: 500; text-decoration: none; }
+.github-cta a:hover { text-decoration: underline; }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--rule);
+  padding-block: 24px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--fg3);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  nav { padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 0.75rem; }
+  section { padding-block: 52px; }
+  #hero { padding-block: 56px 52px; }
+  .exp-dates { margin-left: 0; width: 100%; }
+  .projects-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 440px) {
+  .nav-links { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-name" href="#hero">KCV</a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="container">
+    <p class="hero-eyebrow">Staff Engineer · Solutions Architect · Houston, TX</p>
+    <h1 class="hero-name">Karthik C<br><em>Vadlamudi</em></h1>
+    <p class="hero-summary">
+      Staff Mobile Engineer and platform architect with 12+ years of mobile experience, 7+ in React Native — owning shared infrastructure that every feature team builds on. Built and shipped the React Native platform at Albertsons serving 20M+ consumers and 250K+ associates across iOS and Android. Personally hands-on across the JS↔native boundary, with production work in Swift, Kotlin, native modules, Fabric/New Architecture, and CI/CD.
+    </p>
+    <div class="hero-contact">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Vkc427@gmail.com
+        <button class="copy-btn" onclick="copyText('Vkc427@gmail.com', this)">Copy</button>
+      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.1 12.25 19.79 19.79 0 0 1 1 3.62 2 2 0 0 1 2.98 1.44h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+        (248) 719-5378
+        <button class="copy-btn" onclick="copyText('(248) 719-5378', this)">Copy</button>
+      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        <a href="https://linkedin.com/in/karthik-vadlamudi-b3138665" target="_blank" rel="noopener">LinkedIn</a>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Technical Expertise</p>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-label">React Native Platform</div>
+        <div class="skill-card-content">Bare workflow, Expo (managed → bare), Fabric/New Architecture, JSI, TypeScript, Redux Toolkit, Metro, Hermes</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Native Modules</div>
+        <div class="skill-card-content">Swift/Obj-C (iOS), Kotlin/Java (Android), Turbo Modules, ActivityKit Live Activities bridge, UWB/Nearby Interaction</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Design System & SDUI</div>
+        <div class="skill-card-content">Cross-platform Design System SDK (Figma Tokens + Style Dictionary), server-driven UI, component governance</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">CI/CD & Releases</div>
+        <div class="skill-card-content">Bitrise, Fastlane, EAS (Expo Application Services), OTA releases, multi-environment build pipelines</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">iOS Native</div>
+        <div class="skill-card-content">Swift, SwiftUI, UIKit, ActivityKit, WidgetKit, Core Data, Combine, async/await, MVVM, Face ID + Keychain</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Backend & Cloud</div>
+        <div class="skill-card-content">Java Spring Boot, GraphQL + REST, AWS (Cognito, S3, Amplify, Lambda, KVS), Azure (AKS, OpenAI), GCP</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Observability & Testing</div>
+        <div class="skill-card-content">AppDynamics, Grafana, ELK Stack, Appium E2E, XCTest, Xcode Instruments, Android Studio Profiler</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">AI-Assisted Dev</div>
+        <div class="skill-card-content">GitHub Copilot org rollout, Claude Code (agentic), prompt engineering, enterprise guardrails, AI SDLC practices</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">Work History</p>
+
+    <!-- Albertsons -->
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-role">Staff Engineer &amp; Solutions Architect</span>
+        <span class="exp-company">Albertsons Companies</span>
+        <span class="exp-dates">Apr 2021 – Present</span>
+      </div>
+
+      <p class="exp-sub">React Native Platform — App Infrastructure</p>
+      <ul class="exp-bullets">
+        <li><strong>Owned the React Native platform</strong> serving 20M+ consumer and 250K+ associate users — migrated the associate app from Expo managed workflow to bare React Native (Fabric/New Architecture), established TypeScript standards and Redux Toolkit state architecture adopted across all feature teams.</li>
+        <li><strong>Built the cross-platform Design System SDK</strong> — Figma Tokens + Style Dictionary compiled to React Native + SwiftUI + UIKit; governed component API contracts across 15 grocery banners.</li>
+        <li><strong>Architected SDUI experimentation layer</strong> — enabled zero-deploy A/B testing, reduced time-to-experiment from weeks to hours; drove 90K daily active users on the associate platform.</li>
+        <li><strong>Authored native modules across the JS↔native boundary</strong> — Live Activities bridge (ActivityKit), UWB/Nearby Interaction module, JSI/Fabric debugging under New Architecture on iOS and Android.</li>
+        <li><strong>Designed and maintained the mobile CI/CD platform</strong> — Bitrise + Fastlane + EAS for OTA releases; Appium E2E and XCTest gates before every App Store / Play Store release.</li>
+        <li><strong>Architected enterprise data pipeline</strong> — GCP → Kafka → Azure Data Factory → Azure SQL with Protegrity PII tokenization; analytics for 250K-employee workforce data.</li>
+        <li>Led org-wide GitHub Copilot rollout; extended to Claude Code agentic workflows with enterprise guardrails.</li>
+        <li>Led 20+ engineers across iOS, Android, React Native, and Java Spring Boot pods.</li>
+      </ul>
+
+      <hr class="exp-divider">
+
+      <p class="exp-sub">Native iOS Platform — Consumer App (20M+ Users)</p>
+      <ul class="exp-bullets">
+        <li><strong>Geofencing &amp; adaptive in-store experience</strong> — Core Location geofence triggers switching the app into an in-store mode with distinct UI (product search, aisle wayfinding, real-time inventory) vs. the standard browse experience.</li>
+        <li><strong>Payment gateway for cart and checkout</strong> — end-to-end checkout on iOS and React Native; Apple Pay integration; PCI-compliant data handling with certificate pinning and tokenized card storage via Keychain.</li>
+        <li><strong>Deals, offers, and personalized promotions</strong> — weekly ads, coupon clipping, push notification surfaces for targeted deal delivery to 20M+ users.</li>
+        <li><strong>Product search and discovery</strong> — typeahead, faceted filtering, relevance-ranked results; REST + GraphQL with multi-layer caching for sub-200ms response.</li>
+        <li><strong>OAuth 2.0 and SAML SSO</strong> — consumer and associate app auth via MSAL + SAML federation; Zero Trust with biometric re-auth (Face ID + Keychain).</li>
+        <li>Profiled and optimized with Xcode Instruments — sub-2-second cold-start across 20M+ monthly active users.</li>
+      </ul>
+    </div>
+
+    <hr class="exp-divider">
+
+    <!-- Universal Weather -->
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-role">Lead iOS Developer / Mobile Architect</span>
+        <span class="exp-company">Universal Weather &amp; Aviation</span>
+        <span class="exp-dates">Jun 2015 – Apr 2021</span>
+      </div>
+      <ul class="exp-bullets">
+        <li><strong>Established mobile architecture standards</strong> for mission-critical aviation apps — MVVM, offline-first data sync, CI/CD (Fastlane + XCTest) — adopted across a 12-engineer team.</li>
+        <li><strong>Architected offline-first real-time data sync</strong> for flight data and operational information with zero network dependency; reduced regression 40% via XCTest automation.</li>
+        <li>Led Swift migration from Objective-C across the full platform; mentored engineers and established code review standards org-wide.</li>
+      </ul>
+    </div>
+
+    <hr class="exp-divider">
+
+    <!-- Union AdWorks -->
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-role">Lead iOS Developer</span>
+        <span class="exp-company">Union AdWorks (FCA Group)</span>
+        <span class="exp-dates">Mar 2012 – May 2015</span>
+      </div>
+      <ul class="exp-bullets">
+        <li>Shipped 10+ consumer iOS apps for global vehicle launches — owned full delivery lifecycle from architecture through App Store release; built reusable multilingual component frameworks across multiple FCA brands.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">Personal Projects</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-name">Pickleball Livestreaming</div>
+        <div class="project-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">New Architecture</span>
+          <span class="tag">Amazon KVS</span>
+          <span class="tag">AWS Amplify</span>
+          <span class="tag">ML</span>
+        </div>
+        <div class="project-desc">Livestreaming app with Amazon KVS feeding an in-house ML model for automatic scoring and video review. Full JSI native bridge on New Architecture.</div>
+      </div>
+      <div class="project-card">
+        <div class="project-name">MyKo</div>
+        <div class="project-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">New Architecture</span>
+          <span class="tag">AWS Cognito</span>
+          <span class="tag">S3</span>
+        </div>
+        <div class="project-desc">Proximity-based social app for real-time geofenced connections — location-aware event-driven architecture. AWS Cognito auth, S3 media, Amplify deployment.</div>
+      </div>
+      <div class="project-card">
+        <div class="project-name">GymBuddy</div>
+        <div class="project-tags">
+          <span class="tag">Native iOS</span>
+          <span class="tag">UWB</span>
+          <span class="tag">React Native</span>
+          <span class="tag">New Architecture</span>
+        </div>
+        <div class="project-desc">Fitness app using Apple Nearby Interaction (UWB) for peer-to-peer spatial awareness and workout gamification. RN companion on New Architecture. AWS Cognito + S3 + Amplify backend.</div>
+      </div>
+    </div>
+
+    <div class="github-cta">
+      Deployable to GitHub Pages at <strong>karthikcv.com</strong> — download the HTML file and push to your <code>gh-pages</code> branch or <code>docs/</code> folder as <code>index.html</code>.
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section id="education">
+  <div class="container">
+    <p class="section-label">Education</p>
+    <div class="edu-items">
+      <div class="edu-item">
+        <span class="edu-degree">MS, Computer Engineering</span>
+        <span class="edu-school">University of Houston – Clear Lake</span>
+        <span class="edu-year">Dec 2011</span>
+      </div>
+      <div class="edu-item">
+        <span class="edu-degree">B.Tech, Electronics &amp; Communication Engineering</span>
+        <span class="edu-school">JNTU, India</span>
+        <span class="edu-year">May 2008</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Let's connect</h2>
+    <div class="contact-row">
+      <div class="contact-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Vkc427@gmail.com
+        <button class="copy-btn" onclick="copyText('Vkc427@gmail.com', this)">Copy</button>
+      </div>
+      <div class="contact-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.1 12.25 19.79 19.79 0 0 1 1 3.62 2 2 0 0 1 2.98 1.44h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+        (248) 719-5378
+        <button class="copy-btn" onclick="copyText('(248) 719-5378', this)">Copy</button>
+      </div>
+      <div class="contact-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        <a href="https://linkedin.com/in/karthik-vadlamudi-b3138665" target="_blank" rel="noopener">linkedin.com/in/karthik-vadlamudi-b3138665</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Karthik C Vadlamudi · Houston, TX · karthikcv.com
+  </div>
+</footer>
+
+<script>
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.textContent = orig; }, 1800);
+  }).catch(() => {
+    const range = document.createRange();
+    const span = document.createElement('span');
+    span.textContent = text;
+    document.body.appendChild(span);
+    range.selectNode(span);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    document.body.removeChild(span);
+    const orig = btn.textContent;
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.textContent = orig; }, 1800);
+  });
+}
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body></html>
