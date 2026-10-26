@@ -1,721 +1,1266 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Karthik C Vadlamudi</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap">
 
 <style>
-/* Layout: sticky nav + full-width sections, constrained content column */
+/* ── tokens ─────────────────────────────────────────── */
 :root {
-  --bg: #f8f7f4;
-  --bg2: #ffffff;
-  --fg: #1a1917;
-  --fg2: #4a4845;
-  --fg3: #7a7774;
-  --accent: #1d5c8a;
-  --accent-light: #e8f0f7;
-  --rule: #e2e0db;
-  --tag-bg: #edf2f7;
-  --tag-fg: #2c5f84;
-  --card: #ffffff;
-  --card-border: #e8e6e1;
+  --navy:    #0a0f1e;
+  --navy2:   #111827;
+  --slate:   #1e2a45;
+  --slate2:  #253354;
+  --cyan:    #00d4ff;
+  --cyan2:   #00b8e0;
+  --cyan-dim:#004d5e;
+  --fg:      #f0f4ff;
+  --fg2:     #8da0c0;
+  --fg3:     #4a5f80;
+  --light-bg:#f8faff;
+  --light-bg2:#eef2ff;
+  --light-fg:#0a0f1e;
+  --light-fg2:#2d3f60;
+  --light-fg3:#6b7ea0;
+  --light-border:#d0d8f0;
+  --light-card:#ffffff;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #141312;
-    --bg2: #1c1b19;
-    --fg: #f0ede8;
-    --fg2: #b8b4ae;
-    --fg3: #7a7774;
-    --accent: #5ba3d4;
-    --accent-light: #162535;
-    --rule: #2a2826;
-    --tag-bg: #1a2d3d;
-    --tag-fg: #7ec8f0;
-    --card: #1c1b19;
-    --card-border: #2e2c29;
+    --section-bg: var(--navy2);
+    --section-fg: var(--fg);
+    --section-fg2: var(--fg2);
+    --card-bg: var(--slate);
+    --card-border: var(--slate2);
+    --rule: #1e2a45;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #141312;
-  --bg2: #1c1b19;
-  --fg: #f0ede8;
-  --fg2: #b8b4ae;
-  --fg3: #7a7774;
-  --accent: #5ba3d4;
-  --accent-light: #162535;
-  --rule: #2a2826;
-  --tag-bg: #1a2d3d;
-  --tag-fg: #7ec8f0;
-  --card: #1c1b19;
-  --card-border: #2e2c29;
+  --section-bg: var(--navy2);
+  --section-fg: var(--fg);
+  --section-fg2: var(--fg2);
+  --card-bg: var(--slate);
+  --card-border: var(--slate2);
+  --rule: #1e2a45;
   color-scheme: dark;
+}
+:root, :root[data-theme="light"] {
+  --section-bg: var(--light-bg);
+  --section-fg: var(--light-fg);
+  --section-fg2: var(--light-fg2);
+  --card-bg: var(--light-card);
+  --card-border: var(--light-border);
+  --rule: var(--light-border);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --section-bg: var(--navy2);
+    --section-fg: var(--fg);
+    --section-fg2: var(--fg2);
+    --card-bg: var(--slate);
+    --card-border: var(--slate2);
+    --rule: #1e2a45;
+  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.6;
+  background: var(--navy);
+  color: var(--fg);
   padding-left: max(0px, env(safe-area-inset-left, 0px));
   padding-right: max(0px, env(safe-area-inset-right, 0px));
-}
-
-/* Nav */
-nav {
-  position: sticky;
-  top: env(safe-area-inset-top, 0px);
-  z-index: 100;
-  background: var(--bg);
-  border-bottom: 1px solid var(--rule);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-block: 14px;
-  padding-left: max(32px, env(safe-area-inset-left, 0px));
-  padding-right: max(32px, env(safe-area-inset-right, 0px));
+  overflow-x: hidden;
 }
 body::before {
   content: "";
   position: fixed;
   inset: 0 0 auto;
   height: env(safe-area-inset-top, 0px);
-  z-index: 101;
-  background: var(--bg);
+  z-index: 200;
+  background: var(--navy);
 }
-.nav-name {
-  font-family: 'DM Serif Display', Georgia, serif;
+
+/* ── nav ─────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: env(safe-area-inset-top, 0px);
+  left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 16px;
+  padding-left: max(40px, env(safe-area-inset-left, 0px));
+  padding-right: max(40px, env(safe-area-inset-right, 0px));
+  background: rgba(10,15,30,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,212,255,0.08);
+}
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--fg);
   text-decoration: none;
-  letter-spacing: -0.01em;
 }
+.nav-logo span { color: var(--cyan); }
 .nav-links {
-  display: flex;
-  gap: 28px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  display: flex; gap: 32px;
+  list-style: none; margin: 0; padding: 0;
 }
 .nav-links a {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.82rem;
   font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--fg3);
+  color: var(--fg2);
   text-decoration: none;
-  transition: color 0.15s;
+  transition: color 0.2s;
 }
-.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover { color: var(--cyan); }
 
-/* Content column */
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding-left: max(24px, env(safe-area-inset-left, 0px));
-  padding-right: max(24px, env(safe-area-inset-right, 0px));
-}
-
-/* Section wrapper */
-section {
-  padding-block: 72px;
-}
-section + section {
-  border-top: 1px solid var(--rule);
-}
-
-/* Hero */
+/* ── hero ────────────────────────────────────────────── */
 #hero {
-  padding-block: 80px 72px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+  padding-block: 120px 80px;
+  padding-left: max(40px, env(safe-area-inset-left, 0px));
+  padding-right: max(40px, env(safe-area-inset-right, 0px));
 }
-.hero-eyebrow {
+/* grid lines background */
+#hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+/* cyan glow orb */
+#hero::after {
+  content: "";
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%);
+  top: -100px; right: -100px;
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
+}
+.hero-terminal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,212,255,0.06);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-family: 'Space Grotesk', monospace;
   font-size: 0.78rem;
   font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 20px;
+  color: var(--cyan);
+  margin-bottom: 28px;
+  letter-spacing: 0.04em;
+}
+.hero-terminal::before {
+  content: "▶";
+  font-size: 0.6rem;
+  opacity: 0.7;
 }
 h1.hero-name {
-  font-family: 'DM Serif Display', Georgia, serif;
-  font-size: clamp(2.8rem, 7vw, 4.5rem);
-  font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
   color: var(--fg);
-  margin: 0 0 28px 0;
+  margin: 0 0 12px 0;
+  text-wrap: balance;
 }
-h1.hero-name em {
-  font-style: italic;
-  color: var(--accent);
+.hero-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 300;
+  color: var(--cyan);
+  margin: 0 0 28px 0;
+  letter-spacing: -0.01em;
 }
 .hero-summary {
-  font-size: 1.08rem;
-  line-height: 1.7;
+  font-size: 1.05rem;
+  line-height: 1.75;
   color: var(--fg2);
-  max-width: 62ch;
-  margin: 0 0 36px 0;
+  max-width: 60ch;
+  margin: 0 0 40px 0;
+}
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 44px;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--fg);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.stat-num span { color: var(--cyan); }
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--fg3);
+  letter-spacing: 0.02em;
 }
 .hero-contact {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 24px;
+  gap: 12px 20px;
   font-size: 0.85rem;
-  color: var(--fg3);
+  color: var(--fg2);
 }
-.hero-contact span { display: flex; align-items: center; gap: 6px; }
-.hero-contact a { color: var(--accent); text-decoration: none; }
-.hero-contact a:hover { text-decoration: underline; }
+.hero-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hero-contact-item a { color: var(--cyan); text-decoration: none; }
+.copy-btn {
+  background: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  color: var(--cyan);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.copy-btn:hover { background: rgba(0,212,255,0.18); }
 
-/* Section headings */
-.section-label {
+/* ── section base ───────────────────────────────────── */
+.section-light {
+  background: var(--light-bg);
+  color: var(--light-fg);
+  padding-block: 88px;
+  padding-left: max(40px, env(safe-area-inset-left, 0px));
+  padding-right: max(40px, env(safe-area-inset-right, 0px));
+}
+.section-dark {
+  background: var(--navy2);
+  color: var(--fg);
+  padding-block: 88px;
+  padding-left: max(40px, env(safe-area-inset-left, 0px));
+  padding-right: max(40px, env(safe-area-inset-right, 0px));
+}
+.section-inner { max-width: 900px; margin: 0 auto; }
+.section-eyebrow {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--fg3);
-  margin-bottom: 36px;
+  color: var(--cyan);
+  margin-bottom: 12px;
 }
-h2.section-title {
-  font-family: 'DM Serif Display', Georgia, serif;
-  font-size: 2rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+.section-light .section-eyebrow { color: #0070a0; }
+h2.section-h {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
   text-wrap: balance;
-  color: var(--fg);
-  margin: 0 0 32px 0;
+  margin: 0 0 12px 0;
+  line-height: 1.1;
 }
+.section-sub {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--fg2);
+  max-width: 58ch;
+  margin: 0 0 52px 0;
+}
+.section-light .section-sub { color: var(--light-fg2); }
 
-/* Skills grid */
+/* ── skills ─────────────────────────────────────────── */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1px;
+  border: 1px solid var(--light-border);
+  border-radius: 12px;
+  overflow: hidden;
 }
-.skill-card {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-  padding: 20px 22px;
-}
-.skill-card-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 8px;
-}
-.skill-card-content {
-  font-size: 0.88rem;
-  line-height: 1.6;
-  color: var(--fg2);
-}
-
-/* Experience */
-.exp-item {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  padding-bottom: 52px;
-  margin-bottom: 4px;
-}
-.exp-item:last-child { padding-bottom: 0; }
-.exp-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 16px;
-  margin-bottom: 4px;
-}
-.exp-role {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--fg);
-}
-.exp-company {
-  font-size: 1.05rem;
-  font-weight: 400;
-  color: var(--accent);
-}
-.exp-dates {
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--fg3);
-  margin-left: auto;
-}
-.exp-sub {
-  font-size: 0.85rem;
-  font-style: italic;
-  color: var(--fg3);
-  margin-bottom: 14px;
-  margin-top: 2px;
-}
-.exp-bullets {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.exp-bullets li {
-  font-size: 0.9rem;
-  line-height: 1.65;
-  color: var(--fg2);
-  padding-left: 18px;
-  position: relative;
-}
-.exp-bullets li::before {
-  content: "—";
-  position: absolute;
-  left: 0;
-  color: var(--accent);
-  font-weight: 300;
-}
-.exp-bullets li strong {
-  color: var(--fg);
-  font-weight: 600;
-}
-.exp-divider {
+.skill-cell {
+  background: var(--light-card);
+  padding: 22px 24px;
   border: none;
-  border-top: 1px solid var(--rule);
-  margin: 28px 0 36px 0;
 }
-.exp-subsection-label {
-  font-size: 0.75rem;
+.skill-cell:hover { background: var(--light-bg2); }
+.skill-cell-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--fg3);
-  margin: 28px 0 10px 0;
+  color: #0070a0;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.skill-cell-text {
+  font-size: 0.87rem;
+  line-height: 1.6;
+  color: var(--light-fg2);
 }
 
-/* Projects */
-.projects-grid {
+/* ── architecture diagram ────────────────────────────── */
+.arch-diagram {
+  background: var(--slate);
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+.arch-diagram svg { display: block; min-width: 560px; }
+.arch-caption {
+  font-size: 0.82rem;
+  color: var(--fg3);
+  text-align: center;
+  margin-top: 16px;
+}
+
+/* ── project case studies ───────────────────────────── */
+.case-study {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+  margin-bottom: 72px;
 }
-.project-card {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.project-name {
+.case-study:last-child { margin-bottom: 0; }
+.case-study.reverse { direction: rtl; }
+.case-study.reverse > * { direction: ltr; }
+.case-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
   font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--fg);
+  letter-spacing: 0.1em;
+  color: var(--fg3);
+  margin-bottom: 10px;
 }
-.project-tags {
+.case-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin: 0 0 14px 0;
+  line-height: 1.2;
+}
+.case-desc {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--fg2);
+  margin: 0 0 20px 0;
+}
+.case-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-bottom: 20px;
 }
 .tag {
   font-size: 0.72rem;
   font-weight: 500;
-  padding: 3px 9px;
+  padding: 4px 10px;
   border-radius: 20px;
-  background: var(--tag-bg);
-  color: var(--tag-fg);
+  background: rgba(0,212,255,0.1);
+  color: var(--cyan);
+  border: 1px solid rgba(0,212,255,0.2);
   letter-spacing: 0.02em;
 }
-.project-desc {
-  font-size: 0.87rem;
-  line-height: 1.6;
-  color: var(--fg2);
+.case-metrics {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
 }
-
-/* Education */
-.edu-items {
+.metric {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 2px;
 }
-.edu-item {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-  align-items: baseline;
+.metric-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
-.edu-degree {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--fg);
-}
-.edu-school {
-  font-size: 0.9rem;
-  color: var(--fg2);
-}
-.edu-year {
-  font-size: 0.82rem;
+.metric-label {
+  font-size: 0.75rem;
   color: var(--fg3);
-  margin-left: auto;
 }
 
-/* Contact CTA */
-.contact-row {
+/* video placeholder */
+.video-slot {
+  background: var(--slate);
+  border-radius: 12px;
+  aspect-ratio: 16/9;
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px dashed var(--slate2);
+  position: relative;
+  overflow: hidden;
 }
-.contact-item {
+.video-slot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,212,255,0.04) 0%, transparent 60%);
+}
+.video-play {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(0,212,255,0.12);
+  border: 1px solid rgba(0,212,255,0.3);
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
-  color: var(--fg2);
+  justify-content: center;
+  position: relative;
+  z-index: 1;
 }
-.contact-item a {
-  color: var(--accent);
-  text-decoration: none;
+.video-play svg { margin-left: 3px; }
+.video-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.78rem;
+  color: var(--fg3);
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 16px;
 }
-.contact-item a:hover { text-decoration: underline; }
-.copy-btn {
-  background: none;
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  padding: 3px 8px;
-  font-size: 0.72rem;
-  font-family: inherit;
+
+/* ── experience timeline ────────────────────────────── */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  padding-left: 32px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--cyan), rgba(0,212,255,0.1));
+}
+.tl-item {
+  position: relative;
+  padding-bottom: 44px;
+}
+.tl-item:last-child { padding-bottom: 0; }
+.tl-dot {
+  position: absolute;
+  left: -28px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--navy2);
+  border: 2px solid var(--cyan);
+}
+.tl-dot.dim { border-color: var(--fg3); }
+.tl-dates {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
   font-weight: 500;
+  color: var(--cyan);
   letter-spacing: 0.04em;
-  color: var(--fg3);
-  cursor: pointer;
-  transition: all 0.15s;
+  margin-bottom: 4px;
 }
-.copy-btn:hover {
-  background: var(--accent-light);
-  border-color: var(--accent);
-  color: var(--accent);
+.tl-dot.dim + .tl-dates { color: var(--fg3); }
+.tl-role {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 2px;
+  line-height: 1.3;
 }
-
-/* GitHub CTA */
-.github-cta {
-  margin-top: 32px;
-  padding: 20px 24px;
-  background: var(--accent-light);
-  border-radius: 10px;
-  border: 1px solid var(--accent);
+.tl-company {
   font-size: 0.88rem;
   color: var(--fg2);
+  margin-bottom: 12px;
 }
-.github-cta a { color: var(--accent); font-weight: 500; text-decoration: none; }
-.github-cta a:hover { text-decoration: underline; }
+.tl-bullets {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tl-bullets li {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--fg2);
+  padding-left: 16px;
+  position: relative;
+}
+.tl-bullets li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--cyan);
+  font-weight: 300;
+}
+.tl-bullets li strong { color: var(--fg); font-weight: 500; }
 
-/* Footer */
+/* ── personal projects ──────────────────────────────── */
+.projects-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.proj-card {
+  background: var(--light-card);
+  border: 1px solid var(--light-border);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.proj-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--light-bg2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.proj-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--light-fg);
+}
+.proj-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--light-fg2);
+  flex: 1;
+}
+.proj-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.proj-tag {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: var(--light-bg2);
+  color: #0070a0;
+  border: 1px solid var(--light-border);
+}
+
+/* ── contact ────────────────────────────────────────── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.contact-headline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+  line-height: 1.1;
+  text-wrap: balance;
+  margin: 0 0 16px 0;
+}
+.contact-sub {
+  font-size: 0.95rem;
+  color: var(--fg2);
+  line-height: 1.7;
+  margin: 0 0 32px 0;
+  max-width: 42ch;
+}
+.contact-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.contact-row-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--fg2);
+}
+.contact-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.contact-row-item a { color: var(--cyan); text-decoration: none; }
+.contact-row-item a:hover { text-decoration: underline; }
+
+/* ── footer ─────────────────────────────────────────── */
 footer {
-  border-top: 1px solid var(--rule);
+  background: var(--navy);
+  border-top: 1px solid rgba(0,212,255,0.08);
   padding-block: 24px;
   text-align: center;
   font-size: 0.8rem;
   color: var(--fg3);
+  padding-left: max(40px, env(safe-area-inset-left, 0px));
+  padding-right: max(40px, env(safe-area-inset-right, 0px));
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  nav { padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
-  .nav-links { gap: 16px; }
-  .nav-links a { font-size: 0.75rem; }
-  section { padding-block: 52px; }
-  #hero { padding-block: 56px 52px; }
-  .exp-dates { margin-left: 0; width: 100%; }
-  .projects-grid { grid-template-columns: 1fr; }
+/* ── responsive ─────────────────────────────────────── */
+@media (max-width: 720px) {
+  nav { padding-inline: max(20px, env(safe-area-inset-left,0px)) max(20px, env(safe-area-inset-right,0px)); }
+  .nav-links { gap: 18px; }
+  #hero, .section-light, .section-dark {
+    padding-left: max(20px, env(safe-area-inset-left,0px));
+    padding-right: max(20px, env(safe-area-inset-right,0px));
+  }
+  .case-study, .contact-grid { grid-template-columns: 1fr; direction: ltr; }
+  .case-study.reverse { direction: ltr; }
+  .projects-row { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 440px) {
+@media (max-width: 480px) {
   .nav-links { display: none; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 20px; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
+  * { transition: none !important; animation: none !important; }
 }
 </style>
 
-<!-- Nav -->
+<!-- NAV -->
 <nav>
-  <a class="nav-name" href="#hero">KCV</a>
+  <a class="nav-logo" href="#hero">KCV<span>.</span></a>
   <ul class="nav-links">
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#architecture">Architecture</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
-<!-- Hero -->
+<!-- HERO -->
 <section id="hero">
-  <div class="container">
-    <p class="hero-eyebrow">Staff Engineer · Solutions Architect · Houston, TX</p>
-    <h1 class="hero-name">Karthik C<br><em>Vadlamudi</em></h1>
+  <div class="hero-inner">
+    <div class="hero-terminal">Staff Engineer · Solutions Architect · Houston TX</div>
+    <h1 class="hero-name">Karthik C<br>Vadlamudi</h1>
+    <p class="hero-title">React Native Platform · Java Full-Stack · Enterprise Architecture</p>
     <p class="hero-summary">
-      Staff Mobile Engineer and platform architect with 12+ years of mobile experience, 7+ in React Native — owning shared infrastructure that every feature team builds on. Built and shipped the React Native platform at Albertsons serving 20M+ consumers and 250K+ associates across iOS and Android. Personally hands-on across the JS↔native boundary, with production work in Swift, Kotlin, native modules, Fabric/New Architecture, and CI/CD.
+      I build the infrastructure mobile teams run on — React Native platforms, native module bridges, Design System SDKs, CI/CD pipelines, and SDUI layers that ship at scale. 12+ years of mobile, 7+ in React Native, and a Java Spring Boot backend that ties it together.
     </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">20<span>M+</span></div>
+        <div class="stat-label">Consumer app users</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">250<span>K</span></div>
+        <div class="stat-label">Enterprise employees</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12<span>+</span></div>
+        <div class="stat-label">Years of mobile</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">40<span>%</span></div>
+        <div class="stat-label">Regression reduction</div>
+      </div>
+    </div>
     <div class="hero-contact">
-      <span>
+      <div class="hero-contact-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         Vkc427@gmail.com
-        <button class="copy-btn" onclick="copyText('Vkc427@gmail.com', this)">Copy</button>
-      </span>
-      <span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.1 12.25 19.79 19.79 0 0 1 1 3.62 2 2 0 0 1 2.98 1.44h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+        <button class="copy-btn" onclick="copyText('Vkc427@gmail.com',this)">Copy</button>
+      </div>
+      <div class="hero-contact-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.1 12.25 19.79 19.79 0 0 1 1 3.62 2 2 0 0 1 2.98 1.44h3a2 2 0 0 1 2 1.72c.12.966.338 1.916.67 2.836a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.92.332 1.87.55 2.836.67A2 2 0 0 1 21 16.92z"/></svg>
         (248) 719-5378
-        <button class="copy-btn" onclick="copyText('(248) 719-5378', this)">Copy</button>
-      </span>
-      <span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        <button class="copy-btn" onclick="copyText('(248) 719-5378',this)">Copy</button>
+      </div>
+      <div class="hero-contact-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         <a href="https://linkedin.com/in/karthik-vadlamudi-b3138665" target="_blank" rel="noopener">LinkedIn</a>
-      </span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Skills -->
-<section id="skills">
-  <div class="container">
-    <p class="section-label">Technical Expertise</p>
+<!-- WORK / CASE STUDIES -->
+<section class="section-dark" id="work">
+  <div class="section-inner">
+    <p class="section-eyebrow">Case Studies</p>
+    <h2 class="section-h">Platform work at scale</h2>
+    <p class="section-sub">The systems underneath — infrastructure every feature team depends on.</p>
+
+    <!-- Case 1: RN Platform -->
+    <div class="case-study">
+      <div>
+        <div class="case-num">01 · React Native Platform</div>
+        <h3 class="case-title">Associate App Platform<br>@ Albertsons</h3>
+        <p class="case-desc">
+          Migrated the Albertsons associate app from Expo managed workflow to bare React Native on Fabric/New Architecture. Established TypeScript standards, Redux Toolkit state architecture, and Metro config adopted across all feature teams serving 90K daily active users.
+        </p>
+        <div class="case-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">Fabric / New Arch</span>
+          <span class="tag">Expo → Bare</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Redux Toolkit</span>
+          <span class="tag">JSI</span>
+        </div>
+        <div class="case-metrics">
+          <div class="metric"><div class="metric-val">90K</div><div class="metric-label">Daily active users</div></div>
+          <div class="metric"><div class="metric-val">250K</div><div class="metric-label">Employees</div></div>
+          <div class="metric"><div class="metric-val">15</div><div class="metric-label">Grocery banners</div></div>
+        </div>
+      </div>
+      <div class="arch-diagram" style="margin-bottom:0;padding:20px;">
+        <!-- Two-column layout: main stack left, AI branch right -->
+        <!--
+          Canvas: 760 x 420
+          Left col (main stack): x 20–480, center x=250
+          Right col (AI branch): x 530–740, center x=635
+          Divider at x=500
+        -->
+        <svg viewBox="0 0 760 420" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <rect width="760" height="420" fill="#0d1b2e" rx="8"/>
+
+          <!-- column headers -->
+          <text x="250" y="18" text-anchor="middle" fill="#8da0c0" font-family="Space Grotesk,sans-serif" font-size="8" letter-spacing="1.5">MAIN STACK</text>
+          <text x="635" y="18" text-anchor="middle" fill="#a78bfa" font-family="Space Grotesk,sans-serif" font-size="8" letter-spacing="1.5">AI CHATBOT BRANCH</text>
+          <line x1="505" y1="8" x2="505" y2="405" stroke="#1e2a45" stroke-width="1"/>
+
+          <!-- ── LEFT COLUMN ── -->
+
+          <!-- 1. React Native App -->
+          <rect x="150" y="26" width="200" height="38" rx="5" fill="#0a3d4d" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="250" y="43" text-anchor="middle" fill="#00d4ff" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">React Native App</text>
+          <text x="250" y="57" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">TypeScript · Redux Toolkit · Fabric / New Arch</text>
+
+          <line x1="250" y1="64" x2="250" y2="76" stroke="#00d4ff" stroke-width="1" stroke-dasharray="3,2"/>
+          <polygon points="247,74 250,79 253,74" fill="#00d4ff"/>
+
+          <!-- 2. App Gateway -->
+          <rect x="150" y="80" width="200" height="36" rx="5" fill="#0d1b2e" stroke="#00b8e0" stroke-width="1.5"/>
+          <text x="250" y="96" text-anchor="middle" fill="#00b8e0" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">Azure App Gateway</text>
+          <text x="250" y="109" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">WAF · SSL Termination · Routing</text>
+
+          <!-- fan out from App Gateway to AKS and BFF -->
+          <line x1="250" y1="116" x2="250" y2="122" stroke="#4a5f80" stroke-width="1"/>
+          <line x1="110" y1="122" x2="390" y2="122" stroke="#4a5f80" stroke-width="1"/>
+          <line x1="110" y1="122" x2="110" y2="132" stroke="#4a5f80" stroke-width="1" stroke-dasharray="3,2"/>
+          <polygon points="107,130 110,135 113,130" fill="#4a5f80"/>
+          <line x1="390" y1="122" x2="390" y2="132" stroke="#4a5f80" stroke-width="1" stroke-dasharray="3,2"/>
+          <polygon points="387,130 390,135 393,130" fill="#4a5f80"/>
+
+          <!-- 3a. AKS Cluster -->
+          <rect x="20" y="136" width="180" height="52" rx="5" fill="#0d1b2e" stroke="#0095c8" stroke-width="1.5"/>
+          <text x="110" y="155" text-anchor="middle" fill="#0095c8" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">AKS Cluster</text>
+          <text x="110" y="168" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">Helm Charts · Auto-scale</text>
+          <text x="110" y="180" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">DevOps CI/CD · Azure Pipelines</text>
+
+          <!-- 3b. Java Spring Boot BFF -->
+          <rect x="300" y="136" width="180" height="52" rx="5" fill="#0d1b2e" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="390" y="155" text-anchor="middle" fill="#00d4ff" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">Java Spring Boot BFF</text>
+          <text x="390" y="168" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">GraphQL · REST · OAuth2 / SAML</text>
+          <text x="390" y="180" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">Runs inside AKS pods</text>
+
+          <!-- AKS ↔ BFF connector -->
+          <line x1="200" y1="162" x2="300" y2="162" stroke="#1e2a45" stroke-width="1" stroke-dasharray="2,2"/>
+
+          <!-- Key Vault pill (between AKS and BFF rows) -->
+          <rect x="214" y="152" width="72" height="20" rx="10" fill="#0a1929" stroke="#4a5f80" stroke-width="1"/>
+          <text x="250" y="165" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5" font-weight="600">Key Vault · Secrets</text>
+
+          <!-- arrows down from AKS + BFF -->
+          <line x1="110" y1="188" x2="110" y2="202" stroke="#4a5f80" stroke-width="1" stroke-dasharray="3,2"/>
+          <polygon points="107,200 110,205 113,200" fill="#4a5f80"/>
+          <line x1="390" y1="188" x2="390" y2="202" stroke="#00d4ff" stroke-width="1" stroke-dasharray="3,2"/>
+          <polygon points="387,200 390,205 393,200" fill="#00d4ff"/>
+
+          <!-- 4a. Kafka -->
+          <rect x="20" y="206" width="178" height="36" rx="5" fill="#0d1b2e" stroke="#007ab8" stroke-width="1.5"/>
+          <text x="109" y="222" text-anchor="middle" fill="#007ab8" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">Kafka Topics</text>
+          <text x="109" y="235" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">Event Streaming · Retry · DLQ</text>
+
+          <!-- 4b. Azure SQL -->
+          <rect x="302" y="206" width="178" height="36" rx="5" fill="#0d1b2e" stroke="#005a7a" stroke-width="1.5"/>
+          <text x="391" y="222" text-anchor="middle" fill="#005a7a" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">Azure SQL</text>
+          <text x="391" y="235" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">HR Schema · 250K employees · Caffeine Cache</text>
+
+          <!-- arrows down -->
+          <line x1="109" y1="242" x2="109" y2="256" stroke="#4a5f80" stroke-width="1" stroke-dasharray="3,2"/>
+          <polygon points="106,254 109,259 112,254" fill="#4a5f80"/>
+          <line x1="391" y1="242" x2="391" y2="256" stroke="#4a5f80" stroke-width="1" stroke-dasharray="3,2"/>
+          <polygon points="388,254 391,259 394,254" fill="#4a5f80"/>
+
+          <!-- 5a. ADF -->
+          <rect x="20" y="260" width="178" height="36" rx="5" fill="#0a1929" stroke="#3a5070" stroke-width="1"/>
+          <text x="109" y="276" text-anchor="middle" fill="#3a5070" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">Azure Data Factory</text>
+          <text x="109" y="289" text-anchor="middle" fill="#2d3f60" font-family="Space Grotesk,sans-serif" font-size="7.5">ETL / ELT Pipelines</text>
+
+          <!-- 5b. GCP -->
+          <rect x="302" y="260" width="178" height="36" rx="5" fill="#0a1929" stroke="#3a5070" stroke-width="1"/>
+          <text x="391" y="276" text-anchor="middle" fill="#3a5070" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">GCP</text>
+          <text x="391" y="289" text-anchor="middle" fill="#2d3f60" font-family="Space Grotesk,sans-serif" font-size="7.5">Source of Record · BigQuery · Pub/Sub</text>
+
+          <!-- GCP -> ADF -->
+          <line x1="302" y1="278" x2="198" y2="278" stroke="#2d3f60" stroke-width="1" stroke-dasharray="2,2"/>
+          <polygon points="200,275 195,278 200,281" fill="#2d3f60"/>
+
+          <!-- ADF -> Azure SQL -->
+          <line x1="198" y1="278" x2="391" y2="260" stroke="#2d3f60" stroke-width="0.8" stroke-dasharray="2,2"/>
+
+          <!-- bottom label -->
+          <text x="250" y="314" text-anchor="middle" fill="#2d3f60" font-family="Space Grotesk,sans-serif" font-size="7.5">90K DAU · 15 Grocery Banners · 250K Associates</text>
+
+          <!-- ── RIGHT COLUMN (AI branch) ── -->
+
+          <!-- AI Chatbot (same row as RN App) -->
+          <rect x="535" y="26" width="200" height="38" rx="5" fill="#0a3d4d" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="635" y="43" text-anchor="middle" fill="#00d4ff" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">AI Chatbot (RN In-App)</text>
+          <text x="635" y="57" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">Embedded in Associate App</text>
+
+          <line x1="635" y1="64" x2="635" y2="76" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,2"/>
+          <polygon points="632,74 635,79 638,74" fill="#a78bfa"/>
+
+          <!-- FastAPI / Python -->
+          <rect x="535" y="80" width="200" height="38" rx="5" fill="#0d1b2e" stroke="#7c3aed" stroke-width="1.5"/>
+          <text x="635" y="97" text-anchor="middle" fill="#a78bfa" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">FastAPI / Python</text>
+          <text x="635" y="110" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">RAG · Prompt Engineering · API layer</text>
+
+          <line x1="635" y1="118" x2="635" y2="132" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,2"/>
+          <polygon points="632,130 635,135 638,130" fill="#a78bfa"/>
+
+          <!-- Azure Copilot LLM -->
+          <rect x="535" y="136" width="200" height="52" rx="5" fill="#1a0a3d" stroke="#7c3aed" stroke-width="1.5"/>
+          <text x="635" y="156" text-anchor="middle" fill="#a78bfa" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">Azure Copilot LLM</text>
+          <text x="635" y="170" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">GPT-4 · Azure OpenAI Service</text>
+          <text x="635" y="182" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk,sans-serif" font-size="7.5">RAG on HR knowledge base</text>
+
+          <!-- note: 40% HR ticket reduction -->
+          <rect x="535" y="204" width="200" height="30" rx="5" fill="#0a1929" stroke="#3a2060" stroke-width="1"/>
+          <text x="635" y="218" text-anchor="middle" fill="#7c3aed" font-family="Space Grotesk,sans-serif" font-size="8" font-weight="600">40% HR Ticket Reduction</text>
+          <text x="635" y="229" text-anchor="middle" fill="#2d3f60" font-family="Space Grotesk,sans-serif" font-size="7">Self-service via AI chatbot</text>
+
+          <!-- cross-column connector: RN App -> AI Chatbot (horizontal at y=45) -->
+          <!-- already shown as same-row visual, no connector needed -->
+
+          <!-- label -->
+          <text x="635" y="314" text-anchor="middle" fill="#2d3f60" font-family="Space Grotesk,sans-serif" font-size="7.5">Azure Key Vault supplies secrets to FastAPI</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Case 2: Consumer iOS -->
+    <div class="case-study reverse">
+      <div>
+        <div class="case-num">02 · Native iOS</div>
+        <h3 class="case-title">Consumer App<br>20M+ Users</h3>
+        <p class="case-desc">
+          Shipped production iOS features in Swift/SwiftUI — geofencing for adaptive in-store experience, end-to-end payment gateway with Apple Pay, deals and personalized offers engine, product search with multi-layer caching, and OAuth 2.0 + SAML SSO across enterprise and consumer surfaces.
+        </p>
+        <div class="case-tags">
+          <span class="tag">Swift / SwiftUI</span>
+          <span class="tag">Core Location</span>
+          <span class="tag">Apple Pay</span>
+          <span class="tag">OAuth 2.0 / SAML</span>
+          <span class="tag">GraphQL</span>
+          <span class="tag">SDUI</span>
+        </div>
+        <div class="case-metrics">
+          <div class="metric"><div class="metric-val">20M+</div><div class="metric-label">Monthly active users</div></div>
+          <div class="metric"><div class="metric-val">&lt;2s</div><div class="metric-label">Cold-start time</div></div>
+        </div>
+      </div>
+      <div class="video-slot">
+        <div class="video-play">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="video-label">In-store mode demo<br><span style="opacity:0.5;font-size:0.72rem">Drop your MP4 here</span></div>
+      </div>
+    </div>
+
+    <!-- Case 3: Java BFF -->
+    <div class="case-study">
+      <div>
+        <div class="case-num">03 · Java Spring Boot</div>
+        <h3 class="case-title">GraphQL / REST BFF<br>Enterprise Backend</h3>
+        <p class="case-desc">
+          Designed the Java Spring Boot GraphQL/REST Backend-for-Frontend on AKS normalizing data from five enterprise workforce systems (UKG Pro, WorkBrain, Empower, HRIS) into a single schema. Azure SQL schema design, Kafka event streaming, Caffeine caching, Protegrity PII tokenization.
+        </p>
+        <div class="case-tags">
+          <span class="tag">Java Spring Boot</span>
+          <span class="tag">GraphQL (Apollo)</span>
+          <span class="tag">AKS / Helm</span>
+          <span class="tag">Kafka</span>
+          <span class="tag">Azure SQL</span>
+          <span class="tag">TDD</span>
+          <span class="tag">Pair Programming</span>
+        </div>
+        <div class="case-metrics">
+          <div class="metric"><div class="metric-val">5</div><div class="metric-label">Systems unified</div></div>
+          <div class="metric"><div class="metric-val">40%</div><div class="metric-label">HR ticket reduction (RAG)</div></div>
+        </div>
+      </div>
+      <div class="video-slot">
+        <div class="video-play">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="video-label">Pipeline walkthrough<br><span style="opacity:0.5;font-size:0.72rem">Drop your MP4 here</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE DIAGRAMS -->
+<section class="section-light" id="architecture">
+  <div class="section-inner">
+    <p class="section-eyebrow">Architecture</p>
+    <h2 class="section-h" style="color:var(--light-fg)">Systems I designed</h2>
+    <p class="section-sub">End-to-end diagrams of the platforms I architected.</p>
+
+    <!-- Diagram 1: Data Pipeline -->
+    <div class="arch-diagram">
+      <svg viewBox="0 0 760 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background -->
+        <rect width="760" height="200" fill="#1e2a45" rx="8"/>
+
+        <!-- Label -->
+        <text x="380" y="22" text-anchor="middle" fill="#8da0c0" font-family="Space Grotesk, sans-serif" font-size="11" letter-spacing="2">HR DATA PIPELINE — GCP → KAFKA → AZURE DATA FACTORY → AZURE SQL</text>
+
+        <!-- Nodes -->
+        <!-- GCP -->
+        <rect x="24" y="60" width="110" height="88" rx="8" fill="#0d1b2e" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="79" y="90" text-anchor="middle" fill="#00d4ff" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">GCP</text>
+        <text x="79" y="106" text-anchor="middle" fill="#8da0c0" font-family="Space Grotesk, sans-serif" font-size="9">Source of record</text>
+        <text x="79" y="122" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">HR / Employee data</text>
+        <text x="79" y="136" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">BigQuery · Pub/Sub</text>
+
+        <!-- Arrow 1 -->
+        <line x1="134" y1="104" x2="168" y2="104" stroke="#00d4ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <polygon points="164,100 172,104 164,108" fill="#00d4ff"/>
+
+        <!-- Kafka -->
+        <rect x="172" y="60" width="110" height="88" rx="8" fill="#0d1b2e" stroke="#00b8e0" stroke-width="1.5"/>
+        <text x="227" y="90" text-anchor="middle" fill="#00b8e0" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">Kafka</text>
+        <text x="227" y="106" text-anchor="middle" fill="#8da0c0" font-family="Space Grotesk, sans-serif" font-size="9">Event streaming</text>
+        <text x="227" y="122" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Spring Kafka</text>
+        <text x="227" y="136" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Retry + DLQ</text>
+
+        <!-- Arrow 2 -->
+        <line x1="282" y1="104" x2="316" y2="104" stroke="#00d4ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <polygon points="312,100 320,104 312,108" fill="#00d4ff"/>
+
+        <!-- Protegrity badge -->
+        <rect x="280" y="82" width="60" height="18" rx="4" fill="#0a3d4d" stroke="#004d5e" stroke-width="1"/>
+        <text x="310" y="94" text-anchor="middle" fill="#00d4ff" font-family="Space Grotesk, sans-serif" font-size="8">Protegrity PII</text>
+
+        <!-- ADF -->
+        <rect x="320" y="60" width="120" height="88" rx="8" fill="#0d1b2e" stroke="#0095c8" stroke-width="1.5"/>
+        <text x="380" y="90" text-anchor="middle" fill="#0095c8" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">Azure Data Factory</text>
+        <text x="380" y="106" text-anchor="middle" fill="#8da0c0" font-family="Space Grotesk, sans-serif" font-size="9">ETL / ELT</text>
+        <text x="380" y="122" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Transform · Validate</text>
+        <text x="380" y="136" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Key Vault secrets</text>
+
+        <!-- Arrow 3 -->
+        <line x1="440" y1="104" x2="474" y2="104" stroke="#00d4ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <polygon points="470,100 478,104 470,108" fill="#00d4ff"/>
+
+        <!-- Azure SQL -->
+        <rect x="478" y="60" width="110" height="88" rx="8" fill="#0d1b2e" stroke="#007ab8" stroke-width="1.5"/>
+        <text x="533" y="90" text-anchor="middle" fill="#007ab8" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">Azure SQL</text>
+        <text x="533" y="106" text-anchor="middle" fill="#8da0c0" font-family="Space Grotesk, sans-serif" font-size="9">HR schema</text>
+        <text x="533" y="122" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Caffeine cache</text>
+        <text x="533" y="136" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">250K employees</text>
+
+        <!-- Arrow 4 -->
+        <line x1="588" y1="104" x2="622" y2="104" stroke="#00d4ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <polygon points="618,100 626,104 618,108" fill="#00d4ff"/>
+
+        <!-- BFF -->
+        <rect x="626" y="60" width="110" height="88" rx="8" fill="#0d1b2e" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="681" y="87" text-anchor="middle" fill="#00d4ff" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">Spring Boot BFF</text>
+        <text x="681" y="103" text-anchor="middle" fill="#8da0c0" font-family="Space Grotesk, sans-serif" font-size="9">GraphQL + REST</text>
+        <text x="681" y="119" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">AKS / Helm</text>
+        <text x="681" y="135" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">OAuth2 · SAML</text>
+
+        <!-- consumers below BFF -->
+        <line x1="681" y1="148" x2="681" y2="168" stroke="#4a5f80" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="681" y="182" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">React Native · Web · Analytics</text>
+      </svg>
+      <div class="arch-caption">Enterprise HR Data Pipeline · Albertsons Companies · 250K employees</div>
+    </div>
+
+    <!-- Diagram 2: RN Platform Stack -->
+    <div class="arch-diagram">
+      <svg viewBox="0 0 760 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect width="760" height="220" fill="#1e2a45" rx="8"/>
+        <text x="380" y="22" text-anchor="middle" fill="#8da0c0" font-family="Space Grotesk, sans-serif" font-size="11" letter-spacing="2">REACT NATIVE PLATFORM STACK</text>
+
+        <!-- Layer: Feature Teams (top) -->
+        <rect x="24" y="36" width="712" height="36" rx="6" fill="#0a3d4d" stroke="#004d5e" stroke-width="1"/>
+        <text x="380" y="57" text-anchor="middle" fill="#00d4ff" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">Feature Teams (iOS · Android · Web)</text>
+        <text x="380" y="69" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Consumer App · Associate App · 15 Grocery Banners</text>
+
+        <!-- Arrow down -->
+        <line x1="380" y1="72" x2="380" y2="84" stroke="#4a5f80" stroke-width="1"/>
+        <polygon points="376,82 380,88 384,82" fill="#4a5f80"/>
+
+        <!-- Layer: Platform (middle row) -->
+        <!-- Design System -->
+        <rect x="24" y="88" width="160" height="60" rx="6" fill="#0d1b2e" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="104" y="113" text-anchor="middle" fill="#00d4ff" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">Design System SDK</text>
+        <text x="104" y="127" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Figma Tokens → Style Dict</text>
+        <text x="104" y="139" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">RN + SwiftUI + UIKit</text>
+
+        <!-- SDUI -->
+        <rect x="200" y="88" width="130" height="60" rx="6" fill="#0d1b2e" stroke="#00b8e0" stroke-width="1.5"/>
+        <text x="265" y="113" text-anchor="middle" fill="#00b8e0" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">SDUI Layer</text>
+        <text x="265" y="127" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Server-driven UI</text>
+        <text x="265" y="139" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Zero-deploy A/B</text>
+
+        <!-- Native Modules -->
+        <rect x="346" y="88" width="140" height="60" rx="6" fill="#0d1b2e" stroke="#0095c8" stroke-width="1.5"/>
+        <text x="416" y="110" text-anchor="middle" fill="#0095c8" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">Native Modules</text>
+        <text x="416" y="124" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">ActivityKit · UWB</text>
+        <text x="416" y="136" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Swift · Kotlin · JSI</text>
+
+        <!-- CI/CD -->
+        <rect x="502" y="88" width="130" height="60" rx="6" fill="#0d1b2e" stroke="#007ab8" stroke-width="1.5"/>
+        <text x="567" y="113" text-anchor="middle" fill="#007ab8" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">CI/CD</text>
+        <text x="567" y="127" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Bitrise · Fastlane · EAS</text>
+        <text x="567" y="139" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Appium · XCTest gates</text>
+
+        <!-- Observability -->
+        <rect x="648" y="88" width="88" height="60" rx="6" fill="#0d1b2e" stroke="#005a7a" stroke-width="1.5"/>
+        <text x="692" y="113" text-anchor="middle" fill="#005a7a" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="600">Observability</text>
+        <text x="692" y="127" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">AppDynamics</text>
+        <text x="692" y="139" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="8">Grafana · ELK</text>
+
+        <!-- Arrow down -->
+        <line x1="380" y1="148" x2="380" y2="160" stroke="#4a5f80" stroke-width="1"/>
+        <polygon points="376,158 380,164 384,158" fill="#4a5f80"/>
+
+        <!-- Foundation layer -->
+        <rect x="24" y="164" width="712" height="36" rx="6" fill="#0a1929" stroke="#1e2a45" stroke-width="1"/>
+        <text x="380" y="183" text-anchor="middle" fill="#4a5f80" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="500">Fabric / New Architecture · Hermes Engine · Metro Bundler · TypeScript · Redux Toolkit</text>
+        <text x="380" y="196" text-anchor="middle" fill="#2d3f60" font-family="Space Grotesk, sans-serif" font-size="8">React Native Core Platform</text>
+      </svg>
+      <div class="arch-caption">React Native Platform Stack · Albertsons Companies</div>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONAL PROJECTS -->
+<section class="section-dark" id="projects">
+  <div class="section-inner">
+    <p class="section-eyebrow">Personal Projects</p>
+    <h2 class="section-h">Built on New Architecture</h2>
+    <p class="section-sub">All three run on React Native New Architecture with full JSI native bridges.</p>
+    <div class="projects-row">
+      <div class="proj-card" style="background:var(--slate);border-color:var(--slate2);">
+        <div class="proj-icon" style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+        </div>
+        <div class="proj-name" style="color:var(--fg);">Pickleball Livestreaming</div>
+        <div class="proj-desc" style="color:var(--fg2);">Amazon KVS livestreaming into an in-house ML model for automatic scoring and video review. End-to-end hardware-to-inference pipeline.</div>
+        <div class="proj-tags">
+          <span class="tag">React Native</span><span class="tag">Amazon KVS</span><span class="tag">ML / Scoring</span><span class="tag">AWS Amplify</span>
+        </div>
+      </div>
+      <div class="proj-card" style="background:var(--slate);border-color:var(--slate2);">
+        <div class="proj-icon" style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="proj-name" style="color:var(--fg);">MyKo</div>
+        <div class="proj-desc" style="color:var(--fg2);">Proximity-based social app for real-time geofenced connections. WebSocket real-time chat, event-driven location-aware architecture.</div>
+        <div class="proj-tags">
+          <span class="tag">React Native</span><span class="tag">WebSocket</span><span class="tag">Geofencing</span><span class="tag">AWS Cognito</span>
+        </div>
+      </div>
+      <div class="proj-card" style="background:var(--slate);border-color:var(--slate2);">
+        <div class="proj-icon" style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.8"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        </div>
+        <div class="proj-name" style="color:var(--fg);">GymBuddy</div>
+        <div class="proj-desc" style="color:var(--fg2);">Apple Nearby Interaction (UWB) for peer-to-peer spatial awareness and workout gamification. Precision positioning without network dependency.</div>
+        <div class="proj-tags">
+          <span class="tag">Native iOS</span><span class="tag">UWB</span><span class="tag">Nearby Interaction</span><span class="tag">React Native</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section-light" id="experience">
+  <div class="section-inner">
+    <p class="section-eyebrow" style="color:#0070a0;">Experience</p>
+    <h2 class="section-h" style="color:var(--light-fg);">12+ years of mobile</h2>
+    <p class="section-sub">From Objective-C to New Architecture, FCA to enterprise grocery at scale.</p>
+
+    <div class="timeline" style="--cyan:#0070a0;">
+      <div class="tl-item">
+        <div class="tl-dot" style="border-color:#0070a0; background:var(--light-bg);"></div>
+        <div class="tl-dates" style="color:#0070a0;">Apr 2021 – Present</div>
+        <div class="tl-role" style="color:var(--light-fg);">Staff Engineer &amp; Solutions Architect</div>
+        <div class="tl-company" style="color:var(--light-fg2);">Albertsons Companies · Houston, TX</div>
+        <ul class="tl-bullets">
+          <li style="color:var(--light-fg2);"><strong style="color:var(--light-fg);">RN platform ownership</strong> — migrated associate app Expo → bare React Native (Fabric/New Architecture); TypeScript, Redux Toolkit, Metro adopted across all feature teams</li>
+          <li style="color:var(--light-fg2);"><strong style="color:var(--light-fg);">Design System SDK</strong> — Figma Tokens + Style Dictionary compiled to RN + SwiftUI + UIKit; governed component API contracts across 15 banners</li>
+          <li style="color:var(--light-fg2);"><strong style="color:var(--light-fg);">Native modules</strong> — ActivityKit Live Activities bridge, UWB/Nearby Interaction, JSI/Fabric debugging under New Architecture</li>
+          <li style="color:var(--light-fg2);"><strong style="color:var(--light-fg);">Java Spring Boot BFF</strong> — GraphQL/REST on AKS normalizing 5 enterprise platforms; Kafka, Azure Data Factory, Azure SQL, Protegrity PII tokenization</li>
+          <li style="color:var(--light-fg2);">GitHub Copilot org rollout + Claude Code agentic workflows; led 20+ engineers across iOS, Android, RN, and Java pods</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dim" style="background:var(--light-bg);border-color:#6b7ea0;"></div>
+        <div class="tl-dates" style="color:#6b7ea0;">Jun 2015 – Apr 2021</div>
+        <div class="tl-role" style="color:var(--light-fg);">Lead iOS Developer / Mobile Architect</div>
+        <div class="tl-company" style="color:var(--light-fg2);">Universal Weather &amp; Aviation · Houston, TX</div>
+        <ul class="tl-bullets">
+          <li style="color:var(--light-fg2);">Architected offline-first real-time data sync for mission-critical aviation apps — Core Data, conflict resolution, zero network dependency mid-flight</li>
+          <li style="color:var(--light-fg2);">Established MVVM standards, Fastlane CI/CD, Swift migration from Obj-C — <strong style="color:var(--light-fg);">reduced regression 40%</strong> via XCTest automation across 12-engineer team</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dim" style="background:var(--light-bg);border-color:#6b7ea0;"></div>
+        <div class="tl-dates" style="color:#6b7ea0;">Mar 2012 – May 2015</div>
+        <div class="tl-role" style="color:var(--light-fg);">Lead iOS Developer</div>
+        <div class="tl-company" style="color:var(--light-fg2);">Union AdWorks (FCA Group) · Clarkston, MI</div>
+        <ul class="tl-bullets">
+          <li style="color:var(--light-fg2);">Shipped 10+ consumer iOS apps for global vehicle launches; built reusable multilingual component frameworks across multiple FCA brands</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section-light" id="skills" style="padding-top:0;border-top:1px solid var(--light-border);">
+  <div class="section-inner">
+    <p class="section-eyebrow" style="color:#0070a0;">Skills</p>
+    <h2 class="section-h" style="color:var(--light-fg);">Full-stack depth</h2>
     <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-card-label">React Native Platform</div>
-        <div class="skill-card-content">Bare workflow, Expo (managed → bare), Fabric/New Architecture, JSI, TypeScript, Redux Toolkit, Metro, Hermes</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Native Modules</div>
-        <div class="skill-card-content">Swift/Obj-C (iOS), Kotlin/Java (Android), Turbo Modules, ActivityKit Live Activities bridge, UWB/Nearby Interaction</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Design System & SDUI</div>
-        <div class="skill-card-content">Cross-platform Design System SDK (Figma Tokens + Style Dictionary), server-driven UI, component governance</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">CI/CD & Releases</div>
-        <div class="skill-card-content">Bitrise, Fastlane, EAS (Expo Application Services), OTA releases, multi-environment build pipelines</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">iOS Native</div>
-        <div class="skill-card-content">Swift, SwiftUI, UIKit, ActivityKit, WidgetKit, Core Data, Combine, async/await, MVVM, Face ID + Keychain</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Backend & Cloud</div>
-        <div class="skill-card-content">Java Spring Boot, GraphQL + REST, AWS (Cognito, S3, Amplify, Lambda, KVS), Azure (AKS, OpenAI), GCP</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Observability & Testing</div>
-        <div class="skill-card-content">AppDynamics, Grafana, ELK Stack, Appium E2E, XCTest, Xcode Instruments, Android Studio Profiler</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">AI-Assisted Dev</div>
-        <div class="skill-card-content">GitHub Copilot org rollout, Claude Code (agentic), prompt engineering, enterprise guardrails, AI SDLC practices</div>
-      </div>
+      <div class="skill-cell"><div class="skill-cell-label">React Native</div><div class="skill-cell-text">Bare workflow, Expo, Fabric/New Architecture, JSI, TypeScript, Redux Toolkit, Metro, Hermes</div></div>
+      <div class="skill-cell"><div class="skill-cell-label">Native Modules</div><div class="skill-cell-text">Swift/Obj-C (iOS), Kotlin/Java (Android), Turbo Modules, ActivityKit, UWB/Nearby Interaction</div></div>
+      <div class="skill-cell"><div class="skill-cell-label">Java / Backend</div><div class="skill-cell-text">Java 11/17/21, Python, Spring Boot, Spring MVC, JPA/Hibernate, Spring Security, GraphQL, REST, Node.js, React.js</div></div>
+      <div class="skill-cell"><div class="skill-cell-label">iOS Native</div><div class="skill-cell-text">Swift, SwiftUI, UIKit, ActivityKit, WidgetKit, Core Data, Combine, async/await, MVVM, Face ID + Keychain</div></div>
+      <div class="skill-cell"><div class="skill-cell-label">Cloud &amp; Data</div><div class="skill-cell-text">AWS (Cognito, S3, Amplify, KVS), Azure (AKS, OpenAI, SQL, ADF), GCP, Kafka, Protegrity PII</div></div>
+      <div class="skill-cell"><div class="skill-cell-label">CI/CD &amp; Testing</div><div class="skill-cell-text">TDD, Pair Programming, Bitrise, Fastlane, EAS, Jenkins, GitHub Actions, Appium, XCTest, JUnit, Mockito, Detox</div></div>
+      <div class="skill-cell"><div class="skill-cell-label">Design Systems</div><div class="skill-cell-text">Design System SDK, Figma Tokens, Style Dictionary, SDUI, component governance across multi-team orgs</div></div>
+      <div class="skill-cell"><div class="skill-cell-label">AI &amp; Tooling</div><div class="skill-cell-text">GitHub Copilot (org rollout), Claude Code (agentic), Azure OpenAI/GPT-4, RAG pipelines, prompt engineering</div></div>
     </div>
   </div>
 </section>
 
-<!-- Experience -->
-<section id="experience">
-  <div class="container">
-    <p class="section-label">Work History</p>
-
-    <!-- Albertsons -->
-    <div class="exp-item">
-      <div class="exp-meta">
-        <span class="exp-role">Staff Engineer &amp; Solutions Architect</span>
-        <span class="exp-company">Albertsons Companies</span>
-        <span class="exp-dates">Apr 2021 – Present</span>
+<!-- CONTACT -->
+<section class="section-dark" id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div>
+        <h2 class="contact-headline">Let's build something.</h2>
+        <p class="contact-sub">Open to Staff Engineer, Principal Architect, and Mobile Platform Lead roles. Direct referrals welcome.</p>
       </div>
-
-      <p class="exp-sub">React Native Platform — App Infrastructure</p>
-      <ul class="exp-bullets">
-        <li><strong>Owned the React Native platform</strong> serving 20M+ consumer and 250K+ associate users — migrated the associate app from Expo managed workflow to bare React Native (Fabric/New Architecture), established TypeScript standards and Redux Toolkit state architecture adopted across all feature teams.</li>
-        <li><strong>Built the cross-platform Design System SDK</strong> — Figma Tokens + Style Dictionary compiled to React Native + SwiftUI + UIKit; governed component API contracts across 15 grocery banners.</li>
-        <li><strong>Architected SDUI experimentation layer</strong> — enabled zero-deploy A/B testing, reduced time-to-experiment from weeks to hours; drove 90K daily active users on the associate platform.</li>
-        <li><strong>Authored native modules across the JS↔native boundary</strong> — Live Activities bridge (ActivityKit), UWB/Nearby Interaction module, JSI/Fabric debugging under New Architecture on iOS and Android.</li>
-        <li><strong>Designed and maintained the mobile CI/CD platform</strong> — Bitrise + Fastlane + EAS for OTA releases; Appium E2E and XCTest gates before every App Store / Play Store release.</li>
-        <li><strong>Architected enterprise data pipeline</strong> — GCP → Kafka → Azure Data Factory → Azure SQL with Protegrity PII tokenization; analytics for 250K-employee workforce data.</li>
-        <li>Led org-wide GitHub Copilot rollout; extended to Claude Code agentic workflows with enterprise guardrails.</li>
-        <li>Led 20+ engineers across iOS, Android, React Native, and Java Spring Boot pods.</li>
-      </ul>
-
-      <hr class="exp-divider">
-
-      <p class="exp-sub">Native iOS Platform — Consumer App (20M+ Users)</p>
-      <ul class="exp-bullets">
-        <li><strong>Geofencing &amp; adaptive in-store experience</strong> — Core Location geofence triggers switching the app into an in-store mode with distinct UI (product search, aisle wayfinding, real-time inventory) vs. the standard browse experience.</li>
-        <li><strong>Payment gateway for cart and checkout</strong> — end-to-end checkout on iOS and React Native; Apple Pay integration; PCI-compliant data handling with certificate pinning and tokenized card storage via Keychain.</li>
-        <li><strong>Deals, offers, and personalized promotions</strong> — weekly ads, coupon clipping, push notification surfaces for targeted deal delivery to 20M+ users.</li>
-        <li><strong>Product search and discovery</strong> — typeahead, faceted filtering, relevance-ranked results; REST + GraphQL with multi-layer caching for sub-200ms response.</li>
-        <li><strong>OAuth 2.0 and SAML SSO</strong> — consumer and associate app auth via MSAL + SAML federation; Zero Trust with biometric re-auth (Face ID + Keychain).</li>
-        <li>Profiled and optimized with Xcode Instruments — sub-2-second cold-start across 20M+ monthly active users.</li>
-      </ul>
-    </div>
-
-    <hr class="exp-divider">
-
-    <!-- Universal Weather -->
-    <div class="exp-item">
-      <div class="exp-meta">
-        <span class="exp-role">Lead iOS Developer / Mobile Architect</span>
-        <span class="exp-company">Universal Weather &amp; Aviation</span>
-        <span class="exp-dates">Jun 2015 – Apr 2021</span>
-      </div>
-      <ul class="exp-bullets">
-        <li><strong>Established mobile architecture standards</strong> for mission-critical aviation apps — MVVM, offline-first data sync, CI/CD (Fastlane + XCTest) — adopted across a 12-engineer team.</li>
-        <li><strong>Architected offline-first real-time data sync</strong> for flight data and operational information with zero network dependency; reduced regression 40% via XCTest automation.</li>
-        <li>Led Swift migration from Objective-C across the full platform; mentored engineers and established code review standards org-wide.</li>
-      </ul>
-    </div>
-
-    <hr class="exp-divider">
-
-    <!-- Union AdWorks -->
-    <div class="exp-item">
-      <div class="exp-meta">
-        <span class="exp-role">Lead iOS Developer</span>
-        <span class="exp-company">Union AdWorks (FCA Group)</span>
-        <span class="exp-dates">Mar 2012 – May 2015</span>
-      </div>
-      <ul class="exp-bullets">
-        <li>Shipped 10+ consumer iOS apps for global vehicle launches — owned full delivery lifecycle from architecture through App Store release; built reusable multilingual component frameworks across multiple FCA brands.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- Projects -->
-<section id="projects">
-  <div class="container">
-    <p class="section-label">Personal Projects</p>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-name">Pickleball Livestreaming</div>
-        <div class="project-tags">
-          <span class="tag">React Native</span>
-          <span class="tag">New Architecture</span>
-          <span class="tag">Amazon KVS</span>
-          <span class="tag">AWS Amplify</span>
-          <span class="tag">ML</span>
+      <div class="contact-items">
+        <div class="contact-row-item">
+          <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          Vkc427@gmail.com
+          <button class="copy-btn" onclick="copyText('Vkc427@gmail.com',this)">Copy</button>
         </div>
-        <div class="project-desc">Livestreaming app with Amazon KVS feeding an in-house ML model for automatic scoring and video review. Full JSI native bridge on New Architecture.</div>
-      </div>
-      <div class="project-card">
-        <div class="project-name">MyKo</div>
-        <div class="project-tags">
-          <span class="tag">React Native</span>
-          <span class="tag">New Architecture</span>
-          <span class="tag">AWS Cognito</span>
-          <span class="tag">S3</span>
+        <div class="contact-row-item">
+          <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.1 12.25 19.79 19.79 0 0 1 1 3.62 2 2 0 0 1 2.98 1.44h3a2 2 0 0 1 2 1.72c.12.966.338 1.916.67 2.836a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.92.332 1.87.55 2.836.67A2 2 0 0 1 21 16.92z"/></svg></div>
+          (248) 719-5378
+          <button class="copy-btn" onclick="copyText('(248) 719-5378',this)">Copy</button>
         </div>
-        <div class="project-desc">Proximity-based social app for real-time geofenced connections — location-aware event-driven architecture. AWS Cognito auth, S3 media, Amplify deployment.</div>
-      </div>
-      <div class="project-card">
-        <div class="project-name">GymBuddy</div>
-        <div class="project-tags">
-          <span class="tag">Native iOS</span>
-          <span class="tag">UWB</span>
-          <span class="tag">React Native</span>
-          <span class="tag">New Architecture</span>
+        <div class="contact-row-item">
+          <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+          <a href="https://linkedin.com/in/karthik-vadlamudi-b3138665" target="_blank" rel="noopener">linkedin.com/in/karthik-vadlamudi-b3138665</a>
         </div>
-        <div class="project-desc">Fitness app using Apple Nearby Interaction (UWB) for peer-to-peer spatial awareness and workout gamification. RN companion on New Architecture. AWS Cognito + S3 + Amplify backend.</div>
-      </div>
-    </div>
-
-    <div class="github-cta">
-      Deployable to GitHub Pages at <strong>karthikcv.com</strong> — download the HTML file and push to your <code>gh-pages</code> branch or <code>docs/</code> folder as <code>index.html</code>.
-    </div>
-  </div>
-</section>
-
-<!-- Education -->
-<section id="education">
-  <div class="container">
-    <p class="section-label">Education</p>
-    <div class="edu-items">
-      <div class="edu-item">
-        <span class="edu-degree">MS, Computer Engineering</span>
-        <span class="edu-school">University of Houston – Clear Lake</span>
-        <span class="edu-year">Dec 2011</span>
-      </div>
-      <div class="edu-item">
-        <span class="edu-degree">B.Tech, Electronics &amp; Communication Engineering</span>
-        <span class="edu-school">JNTU, India</span>
-        <span class="edu-year">May 2008</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact -->
-<section id="contact">
-  <div class="container">
-    <p class="section-label">Get in Touch</p>
-    <h2 class="section-title">Let's connect</h2>
-    <div class="contact-row">
-      <div class="contact-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Vkc427@gmail.com
-        <button class="copy-btn" onclick="copyText('Vkc427@gmail.com', this)">Copy</button>
-      </div>
-      <div class="contact-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.1 12.25 19.79 19.79 0 0 1 1 3.62 2 2 0 0 1 2.98 1.44h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
-        (248) 719-5378
-        <button class="copy-btn" onclick="copyText('(248) 719-5378', this)">Copy</button>
-      </div>
-      <div class="contact-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        <a href="https://linkedin.com/in/karthik-vadlamudi-b3138665" target="_blank" rel="noopener">linkedin.com/in/karthik-vadlamudi-b3138665</a>
       </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="container">
-    Karthik C Vadlamudi · Houston, TX · karthikcv.com
-  </div>
+  Karthik C Vadlamudi · Houston, TX · karthikcv.com
 </footer>
 
 <script>
 function copyText(text, btn) {
   navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.textContent;
+    const o = btn.textContent;
     btn.textContent = 'Copied';
-    setTimeout(() => { btn.textContent = orig; }, 1800);
+    setTimeout(() => btn.textContent = o, 1800);
   }).catch(() => {
-    const range = document.createRange();
-    const span = document.createElement('span');
-    span.textContent = text;
-    document.body.appendChild(span);
-    range.selectNode(span);
+    const s = document.createElement('span');
+    s.textContent = text;
+    document.body.appendChild(s);
+    const r = document.createRange();
+    r.selectNode(s);
     window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-    document.execCommand('copy');
-    document.body.removeChild(span);
-    const orig = btn.textContent;
+    window.getSelection().addRange(r);
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(s);
+    const o = btn.textContent;
     btn.textContent = 'Copied';
-    setTimeout(() => { btn.textContent = orig; }, 1800);
+    setTimeout(() => btn.textContent = o, 1800);
   });
 }
-
-// Smooth scroll for nav links
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   });
 });
 </script>
